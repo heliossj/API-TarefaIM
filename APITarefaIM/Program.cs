@@ -55,8 +55,15 @@ app.MapPut("/tarefas/{id}", async (int id, Tarefa tarefaUp, AppDbContext db) =>
 
 app.MapDelete("/tarefas/{id}", async (int id, AppDbContext db) =>
 {
+    if (await db.Tarefas.FindAsync(id) is Tarefa tarefa)
+    {
+        db.Tarefas.Remove(tarefa);
+        await db.SaveChangesAsync();
+        return Results.Ok(tarefa);
+    }
 
-})
+    return Results.NotFound();
+});
 
 app.Run();
 
@@ -70,6 +77,5 @@ class Tarefa
 class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
     public DbSet<Tarefa> Tarefas => Set<Tarefa>();
 }
