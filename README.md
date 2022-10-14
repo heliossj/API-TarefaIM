@@ -8,4 +8,4 @@
 
 - Endpoints para gerenciar produtos
 
-- Registro InMemory (na memória)
+- Registro In Memory (na memória)
